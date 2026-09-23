@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A business development workspace for finding and reviewing UKRI research communication prospects.">
+  <title>Research Retold · Opportunities</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='13' fill='%231d1e20'/%3E%3Cpath d='M17 16h19c9 0 14 5 14 13 0 6-3 10-9 12l9 10H37l-8-9h-1v9H17V16zm11 9v9h7c3 0 5-2 5-5s-2-4-5-4h-7z' fill='%23f36c4f'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true">R</div>
+        <div class="brand-copy">
+          <strong>Research Retold</strong>
+          <span>Business development</span>
+        </div>
+      </div>
+
+      <nav class="side-nav" aria-label="Workspace sections">
+        <button class="nav-item active" data-view="prospects">
+          <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3.5 4.5h13v11h-13zM3.5 8h13M7 8v7.5"/></svg>
+          <span>Opportunities</span>
+        </button>
+        <button class="nav-item" data-view="shortlist">
+          <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 3.5h10v13l-5-3-5 3z"/></svg>
+          <span>Shortlist</span>
+          <b id="shortlist-nav-count">0</b>
+        </button>
+        <button class="nav-item" data-view="weighting">
+          <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 5h12M7 2.5v5M4 15h12M13 12.5v5M4 10h12M10 7.5v5"/></svg>
+          <span>Scoring model</span>
+        </button>
+        <button class="nav-item" data-view="evidence">
+          <svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="7"/><path d="M10 9v4M10 6.5h.01"/></svg>
+          <span>Method & limits</span>
+        </button>
+      </nav>
+
+      <div class="sidebar-source">
+        <div class="source-status"><i></i><span>Dataset loaded</span></div>
+        <strong>2,259 UKRI projects</strong>
+        <span>Snapshot · 21 Jul 2026</span>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div>
+          <h1 id="page-title">Project opportunities</h1>
+          <p id="page-description">Review active projects with visible communication needs.</p>
+        </div>
+        <div class="topbar-meta"><span class="data-dot"></span><span>AHRC · ESRC · Innovate UK</span></div>
+      </header>
+
+      <section id="prospects-view" class="view active">
+        <div class="portfolio-summary" aria-label="Portfolio summary">
+          <article class="metric-card"><span>Projects in dataset</span><strong id="metric-projects">—</strong><small>All active records</small></article>
+          <article class="metric-card"><span>Priority opportunities</span><strong id="metric-candidates">—</strong><small>Score 55 or above</small></article>
+          <article class="metric-card"><span>Recorded funding</span><strong id="metric-award">—</strong><small>Across this dataset</small></article>
+          <article class="metric-card signal-card"><span>Most common service need</span><strong id="metric-service">—</strong><small id="metric-service-count">—</small></article>
+        </div>
+
+        <section class="workbench">
+          <div class="workspace-toolbar">
+            <label class="search-field">
+              <svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="8.5" cy="8.5" r="5.5"/><path d="m13 13 4 4"/></svg>
+              <input id="search-input" type="search" placeholder="Search title, abstract or grant reference" aria-label="Search projects">
+            </label>
+            <label class="compact-field"><span>Funder</span><select id="funder-filter"><option value="all">All funders</option><option value="AHRC">AHRC</option><option value="ESRC">ESRC</option><option value="Innovate UK">Innovate UK</option></select></label>
+            <label class="compact-field"><span>Service</span><select id="service-filter"><option value="all">All services</option></select></label>
+            <label class="compact-field"><span>Audience</span><select id="audience-filter"><option value="all">All audiences</option></select></label>
+            <button id="reset-filters" class="text-button">Clear filters</button>
+          </div>
+
+          <div class="workspace-grid">
+            <section class="prospect-panel">
+              <div class="panel-heading">
+                <div class="result-heading"><strong id="result-count">—</strong><span>projects</span></div>
+                <div class="panel-controls">
+                  <label class="score-field"><span>Minimum score</span><input id="score-filter" type="range" min="0" max="90" value="55" step="5"><b id="score-value">55</b></label>
+                  <label class="sort-control"><span>Sort by</span><select id="sort-select"><option value="score">Priority score</option><option value="award">Award value</option><option value="end">End date</option></select></label>
+                </div>
+              </div>
+              <div class="prospect-table-head" aria-hidden="true"><span>Score</span><span>Project</span><span>Funder</span><span>Likely need</span><span>Award</span><span>Ends</span><span></span></div>
+              <div id="prospect-list" class="prospect-list" aria-live="polite"><div class="loading-state">Loading project data…</div></div>
+              <div class="pagination-row"><span id="page-status">Page 1</span><div><button id="prev-page" class="page-button" disabled aria-label="Previous page">←</button><button id="next-page" class="page-button" aria-label="Next page">→</button></div></div>
+            </section>
+
+            <aside id="detail-panel" class="detail-panel" aria-label="Selected project details">
+              <div class="empty-detail"><span class="empty-icon">↗</span><h2>Select a project</h2><p>Choose a row to review the evidence and decide whether it belongs in the shortlist.</p></div>
+            </aside>
+          </div>
+        </section>
+      </section>
+
+      <section id="shortlist-view" class="view"></section>
+      <section id="weighting-view" class="view"></section>
+      <section id="evidence-view" class="view"></section>
+    </main>
+  </div>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="app.js" defer></script>
+</body>
+</html>
